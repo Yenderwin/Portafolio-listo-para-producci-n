@@ -6,12 +6,12 @@ import HTMLFlipBook from 'react-pageflip';
 
 // Constantes movidas fuera para evitar re-creaciones en cada renderizado
 const SLIDER_IMAGES = [
-  "/images/DISEÑO 1.jpg",
-  "/images/DISEÑO 2.jpg",
-  "/images/DISEÑO 3.jpg",
-  "/images/DISEÑO 4.jpg",
-  "/images/DISEÑO 5.jpeg",
-  "/images/DISEÑO 6.jpg",
+  "/images/diseño1.jpg",
+  "/images/diseño2.jpg",
+  "/images/diseño3.jpg",
+  "/images/diseño4.jpg",
+  "/images/diseño5.jpeg",
+  "/images/diseño6.jpg",
 ];
 
 // --- COMPONENTE DEL SLIDER NORMAL (CUADRO 6) ---
@@ -554,8 +554,8 @@ export default function NuevoPortafolio() {
             subtitle="Visual Identity"
             description="Campaña gráfica de fin de año. Integración de elementos tradicionales con una línea editorial moderna y minimalista. Uso intensivo de paletas doradas y fondos oscuros."
             reverseLayout={false}
-            images={["/images/NAVIDAD/1 (5).png", "/images/NAVIDAD/1 (1).png", "/images/NAVIDAD/1 (3).png", "/images/NAVIDAD/1 (4).png", "/images/NAVIDAD/1 (2).png", "/images/NAVIDAD/1 (6).png", "/images/NAVIDAD/1 (7).png", "/images/NAVIDAD/1 (8).png", "/images/NAVIDAD/1 (9).png"]}
-            documents={["/images/NAVIDAD/1 (5).png", "/images/NAVIDAD/1 (1).png", "/images/NAVIDAD/1 (3).png", "/images/NAVIDAD/1 (4).png", "/images/NAVIDAD/1 (2).png", "/images/NAVIDAD/1 (6).png", "/images/NAVIDAD/1 (7).png", "/images/NAVIDAD/1 (8).png", "/images/NAVIDAD/1 (9).png"]}
+            images={["/images/NAVIDAD/5.png", "/images/NAVIDAD/1.png", "/images/NAVIDAD/3.png", "/images/NAVIDAD/4.png", "/images/NAVIDAD/2.png", "/images/NAVIDAD/6.png", "/images/NAVIDAD/7.png", "/images/NAVIDAD/8.png", "/images/NAVIDAD/9.png"]}
+            documents={["/images/NAVIDAD/5.png", "/images/NAVIDAD/1.png", "/images/NAVIDAD/3.png", "/images/NAVIDAD/4.png", "/images/NAVIDAD/2.png", "/images/NAVIDAD/6.png", "/images/NAVIDAD/7.png", "/images/NAVIDAD/8.png", "/images/NAVIDAD/9.png"]}
           />
         </motion.div>
 
