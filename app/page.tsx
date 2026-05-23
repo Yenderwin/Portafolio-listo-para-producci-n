@@ -6,12 +6,12 @@ import HTMLFlipBook from 'react-pageflip';
 
 // Constantes movidas fuera para evitar re-creaciones en cada renderizado
 const SLIDER_IMAGES = [
-  "/images/diseño1.jpg",
-  "/images/diseño2.jpg",
-  "/images/diseño3.jpg",
-  "/images/diseño4.jpg",
-  "/images/diseño5.jpeg",
-  "/images/diseño6.jpg",
+  "/images/moda/diseno1.jpg",
+  "/images/moda/diseno2.jpg",
+  "/images/moda/diseno3.jpg",
+  "/images/moda/diseno4.jpg",
+  "/images/moda/diseno5.jpeg",
+  "/images/moda/diseno6.jpg",
 ];
 
 // --- COMPONENTE DEL SLIDER NORMAL (CUADRO 6) ---
@@ -145,14 +145,14 @@ function GalleryModalComponent({
   description = "Dirección de arte y creación de identidad visual para la campaña. Este proyecto explora la paleta de colores vibrantes y el diseño de interfaces enfocadas en la experiencia del usuario.",
   reverseLayout = false, 
   images = [
-    "/images/ROSELAN1.jpeg",
-    "/images/ROSELAN2.jpeg",
-    "/images/ROSELAN3.jpeg",
+    "/images/roselan/1.1.jpeg",
+    "/images/roselan/2.jpeg",
+    "/images/roselan/1.3.jpeg",
   ],
   documents = [
-    "/images/ROSELAN/1.1.jpeg",
-    "/images/ROSELAN/1.2.jpeg",
-    "/images/ROSELAN/1.3.jpeg",
+    "/images/roselan/1.1.jpeg",
+    "/images/roselan/2.jpeg",
+    "/images/roselan/1.3.jpeg",
   ]
 }: GalleryModalProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -542,8 +542,8 @@ export default function NuevoPortafolio() {
             subtitle="Design Variations"
             description="Variaciones de banners digitales optimizados para campañas publicitarias web. Pruebas de contraste tipográfico y posicionamiento para asegurar una alta tasa de conversión."
             reverseLayout={true} 
-            images={["/images/BANNER/1.png", "/images/BANNER/2.png", "/images/BANNER/3.png", "/images/BANNER/4.png", "/images/BANNER/5.jpeg"]}
-            documents={["/images/BANNER/1.png", "/images/BANNER/2.png", "/images/BANNER/3.png", "/images/BANNER/4.png", "/images/BANNER/5.jpeg"]}
+            images={["/images/banner/1.png", "/images/banner/2.png", "/images/banner/3.png", "/images/banner/4.png", "/images/banner/5.jpeg"]}
+            documents={["/images/banner/1.png", "/images/banner/2.png", "/images/banner/3.png", "/images/banner/4.png", "/images/banner/5.jpeg"]}
           />
         </motion.div>
 
@@ -554,8 +554,8 @@ export default function NuevoPortafolio() {
             subtitle="Visual Identity"
             description="Campaña gráfica de fin de año. Integración de elementos tradicionales con una línea editorial moderna y minimalista. Uso intensivo de paletas doradas y fondos oscuros."
             reverseLayout={false}
-            images={["/images/NAVIDAD/5.png", "/images/NAVIDAD/1.png", "/images/NAVIDAD/3.png", "/images/NAVIDAD/4.png", "/images/NAVIDAD/2.png", "/images/NAVIDAD/6.png", "/images/NAVIDAD/7.png", "/images/NAVIDAD/8.png", "/images/NAVIDAD/9.png"]}
-            documents={["/images/NAVIDAD/5.png", "/images/NAVIDAD/1.png", "/images/NAVIDAD/3.png", "/images/NAVIDAD/4.png", "/images/NAVIDAD/2.png", "/images/NAVIDAD/6.png", "/images/NAVIDAD/7.png", "/images/NAVIDAD/8.png", "/images/NAVIDAD/9.png"]}
+            images={["/images/navidad/5.png", "/images/navidad/1.png", "/images/navidad/3.png", "/images/navidad/4.png", "/images/navidad/2.png", "/images/navidad/6.png", "/images/navidad/7.png", "/images/navidad/8.png", "/images/navidad/9.png"]}
+            documents={["/images/navidad/5.png", "/images/navidad/1.png", "/images/navidad/3.png", "/images/navidad/4.png", "/images/navidad/2.png", "/images/navidad/6.png", "/images/navidad/7.png", "/images/navidad/8.png", "/images/navidad/9.png"]}
           />
         </motion.div>
 
