@@ -445,7 +445,7 @@ export default function NuevoPortafolio() {
         >
           <div className="relative z-10">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none">
-              JORMALI<br />CEVALLOS.
+              JORMALI<br />C.
             </h1>
             <p className="mt-4 text-gray-400 max-w-md uppercase tracking-widest text-[10px] sm:text-xs">
               Diseñadora grafica y Diseñadora de Interiores.
