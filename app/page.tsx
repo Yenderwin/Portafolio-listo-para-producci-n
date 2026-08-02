@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring, Variants } from 'framer-motion';
 import LoadingScreen from './LoadingScreen'; // Importamos la pantalla de carga
 import useInterval from './hooks/useInterval'; // Asumiendo que creas el hook en esta ruta
 import HTMLFlipBook from 'react-pageflip';
@@ -436,7 +436,7 @@ export default function NuevoPortafolio() {
   const [isLoading, setIsLoading] = useState(true);
 
   // Variantes para la animación de entrada escalonada
-  const gridContainerVariants = {
+  const gridContainerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
@@ -447,7 +447,7 @@ export default function NuevoPortafolio() {
     },
   };
 
-  const gridItemVariants = {
+  const gridItemVariants: Variants = {
     hidden: { opacity: 0, y: 20, scale: 0.98 },
     show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
   };
@@ -469,8 +469,10 @@ export default function NuevoPortafolio() {
       setIsLoading(false);
     }, 2800); // 2.8 segundos
 
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-    return () => clearTimeout(timer);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
