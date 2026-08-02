@@ -437,8 +437,8 @@ export default function NuevoPortafolio() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX, false);
-      mouseY.set(e.clientY, false);
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
