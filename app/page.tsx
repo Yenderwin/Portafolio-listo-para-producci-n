@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import LoadingScreen from './LoadingScreen'; // Importamos la pantalla de carga
 import useInterval from './hooks/useInterval'; // Asumiendo que creas el hook en esta ruta
 import HTMLFlipBook from 'react-pageflip';
 
@@ -432,6 +433,26 @@ function MagazineFlipBookComponent() {
 
 // --- TU CÓDIGO PRINCIPAL ---
 export default function NuevoPortafolio() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Variantes para la animación de entrada escalonada
+  const gridContainerVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const gridItemVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
+  };
+
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -443,155 +464,173 @@ export default function NuevoPortafolio() {
 
     window.addEventListener('mousemove', handleMouseMove);
 
+    // Simula el tiempo de carga
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2800); // 2.8 segundos
+
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [mouseX, mouseY]);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white font-sans p-4 md:p-8 flex flex-col gap-6">
-      <motion.div className="fixed inset-0 pointer-events-none z-0" style={{ background: useTransform(mouseX, (x) => `radial-gradient(600px at ${x}px ${mouseY.get()}px, rgba(220, 38, 38, 0.1), transparent 80%)`) }} />
+    <>
+      <AnimatePresence>
+        {isLoading && <LoadingScreen />}
+      </AnimatePresence>
 
-      {/* SECCIÓN SUPERIOR: 3 CUADROS GRANDES */}
-      <div className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[250px] md:auto-rows-[150px]">
+      <motion.main
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 2.5 }} // Retraso para que aparezca después de la carga
+        className="min-h-screen bg-[#0a0a0a] text-white font-sans p-4 md:p-8 flex flex-col gap-6"
+      >
+        <motion.div className="fixed inset-0 pointer-events-none z-0" style={{ background: useTransform(mouseX, (x) => `radial-gradient(600px at ${x}px ${mouseY.get()}px, rgba(220, 38, 38, 0.1), transparent 80%)`) }} />
 
-        {/* 1. Header & Intro */}
-        <motion.div
-          whileHover={{ scale: 0.99 }}
-          className="md:col-span-7 md:row-span-2 bg-[#1a1a1a] rounded-3xl p-8 flex flex-col justify-end relative overflow-hidden border border-white/5"
-        >
-          <div className="relative z-10">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none">
-              JORMALI<br />CEVALLOS.
-            </h1>
-            <p className="mt-4 text-gray-400 max-w-md uppercase tracking-widest text-[10px] sm:text-xs">
-              Diseñadora grafica y Diseñadora de Interiores.
-            </p>
-          </div>
-          <div className="absolute -top-20 -right-20 w-80 h-80 bg-red-600/20 blur-[100px] rounded-full" />
-        </motion.div>
+        {/* SECCIÓN SUPERIOR: 3 CUADROS GRANDES */}
+        <motion.div variants={gridContainerVariants} initial="hidden" animate="show" className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[250px] md:auto-rows-[150px]">
 
-        {/* 2. Foto Principal */}
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          className="md:col-span-5 md:row-span-4 relative rounded-3xl overflow-hidden group shadow-2xl"
-        >
-          <Image
-            src="/images/Fprincipal.jpeg"
-            alt="Main Identity"
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
-          <div className="absolute bottom-6 left-6">
-            <span className="bg-red-600 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
-              Principal Identity
-            </span>
-          </div>
-        </motion.div>
+          {/* 1. Header & Intro */}
+          <motion.div
+            variants={gridItemVariants}
+            whileHover={{ scale: 0.99 }}
+            className="md:col-span-7 md:row-span-2 bg-[#1a1a1a] rounded-3xl p-8 flex flex-col justify-end relative overflow-hidden border border-white/5"
+          >
+            <div className="relative z-10">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none">
+                JORMALI<br />CEVALLOS.
+              </h1>
+              <p className="mt-4 text-gray-400 max-w-md uppercase tracking-widest text-[10px] sm:text-xs">
+                Diseñadora grafica y Diseñadora de Interiores.
+              </p>
+            </div>
+            <div className="absolute -top-20 -right-20 w-80 h-80 bg-red-600/20 blur-[100px] rounded-full" />
+          </motion.div>
 
-        {/* 3. Creative Journey */}
-        <div className="md:col-span-7 md:row-span-2 bg-[#1a1a1a] rounded-3xl border border-white/5 relative overflow-hidden flex flex-col p-6 md:p-8">
-          <h3 className="text-gray-500 font-bold text-[8px] uppercase tracking-[0.3em] mb-2 md:mb-2 border-b border-red-600/30 pb-2 w-fit z-10">
-            Experiencia
-          </h3>
+          {/* 2. Foto Principal */}
+          <motion.div
+            variants={gridItemVariants}
+            whileHover={{ scale: 1.02 }}
+            className="md:col-span-5 md:row-span-4 relative rounded-3xl overflow-hidden group shadow-2xl"
+          >
+            <Image
+              src="/images/Fprincipal.jpeg"
+              alt="Main Identity"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
+            <div className="absolute bottom-6 left-6">
+              <span className="bg-red-600 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">
+                Principal Identity
+              </span>
+            </div>
+          </motion.div>
 
-          <div className="flex flex-1 relative gap-8 z-10">
-            <div className="flex-1 pr-4 space-y-2 md:space-y-3 overflow-y-auto custom-scrollbar">
-              <div>
-                <p className="font-black text-xl md:text-1xl uppercase text-white leading-none">Diseñadora Grafica</p>
-                <p className="text-red-600 text-[9px] md:text-[10px] font-bold mt-1 uppercase tracking-wider">2025 - Actual</p>
-                <p className="text-gray-400 text-[10px] md:text-xs mt-2 leading-relaxed">
-                  <p> - Creación de identidad visual corporativa, branding y material publicitario.</p>
-                  <p> - Desarrollo de señalética y adaptación gráfica al entorno arquitectónico.</p>
-                  <p> - Elaboración de moodboards y presentaciones visuales para clientes.</p>
-                </p>
+          {/* 3. Creative Journey */}
+          <motion.div variants={gridItemVariants} className="md:col-span-7 md:row-span-2 bg-[#1a1a1a] rounded-3xl border border-white/5 relative overflow-hidden flex flex-col p-6 md:p-8">
+            <h3 className="text-gray-500 font-bold text-[8px] uppercase tracking-[0.3em] mb-2 md:mb-2 border-b border-red-600/30 pb-2 w-fit z-10">
+              Experiencia
+            </h3>
+
+            <div className="flex flex-1 relative gap-8 z-10">
+              <div className="flex-1 pr-4 space-y-2 md:space-y-3 overflow-y-auto custom-scrollbar">
+                <div>
+                  <p className="font-black text-xl md:text-1xl uppercase text-white leading-none">Diseñadora Grafica</p>
+                  <p className="text-red-600 text-[9px] md:text-[10px] font-bold mt-1 uppercase tracking-wider">2025 - Actual</p>
+                  <p className="text-gray-400 text-[10px] md:text-xs mt-2 leading-relaxed">
+                    <p> - Creación de identidad visual corporativa, branding y material publicitario.</p>
+                    <p> - Desarrollo de señalética y adaptación gráfica al entorno arquitectónico.</p>
+                    <p> - Elaboración de moodboards y presentaciones visuales para clientes.</p>
+                  </p>
+                </div>
+                <div>
+                  <p className="font-black text-xl md:text-1xl uppercase text-white leading-none">Diseñadora de Interiores</p>
+                  <p className="text-gray-500 text-[9px] md:text-[10px] font-bold mt-1 uppercase tracking-wider">2024 - 2025</p>
+                  <p className="text-gray-400 text-[10px] md:text-xs mt-2 leading-relaxed">
+                    <p> - Planificación de espacios, selección de acabados, iluminación y mobiliario.</p>
+                    <p> - Diseño de logotipos, empaques y catálogos.</p>
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="font-black text-xl md:text-1xl uppercase text-white leading-none">Diseñadora de Interiores</p>
-                <p className="text-gray-500 text-[9px] md:text-[10px] font-bold mt-1 uppercase tracking-wider">2024 - 2025</p>
-                <p className="text-gray-400 text-[10px] md:text-xs mt-2 leading-relaxed">
-                  <p> - Planificación de espacios, selección de acabados, iluminación y mobiliario.</p>
-                  <p> - Diseño de logotipos, empaques y catálogos.</p>
-                </p>
+
+              <div className="w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
+
+              <div className="flex-none w-10 md:w-10 flex flex-col items-center justify-around pb-1">
+                <motion.div whileHover={{ scale: 1.1, y: -5 }} className="relative w-full aspect-square cursor-pointer scale-[1.5]">
+                  <Image src="/icons/photoshop.png" alt="photoshop" fill className="object-contain" />
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.1, y: -5 }} className="relative w-full aspect-square cursor-pointer scale-[1.5]">
+                  <Image src="/icons/canva.png" alt="canva" fill className="object-contain" />
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.1, y: -5 }} className="relative w-full aspect-square cursor-pointer scale-[1.5]">
+                  <Image src="/icons/illustrator.png" alt="illustrator" fill className="object-contain" />
+                </motion.div>
               </div>
             </div>
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 blur-[50px] rounded-full pointer-events-none" />
+          </motion.div>
 
-            <div className="w-px bg-gradient-to-b from-transparent via-white/10 to-transparent" />
+        </motion.div>
 
-            <div className="flex-none w-10 md:w-10 flex flex-col items-center justify-around pb-1">
-              <motion.div whileHover={{ scale: 1.1, y: -5 }} className="relative w-full aspect-square cursor-pointer scale-[1.5]">
-                <Image src="/icons/photoshop.png" alt="photoshop" fill className="object-contain" />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1, y: -5 }} className="relative w-full aspect-square cursor-pointer scale-[1.5]">
-                <Image src="/icons/canva.png" alt="canva" fill className="object-contain" />
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1, y: -5 }} className="relative w-full aspect-square cursor-pointer scale-[1.5]">
-                <Image src="/icons/illustrator.png" alt="illustrator" fill className="object-contain" />
-              </motion.div>
-            </div>
+        {/* SECCIÓN INFERIOR: 5 CUADROS PEQUEÑOS ALINEADOS */}
+        <motion.div variants={gridContainerVariants} initial="hidden" animate="show" className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 h-auto lg:h-[280px] xl:h-[300px]">
+
+          {/* 4.1 CUADRO ORIGINAL (RoseLab) - MODO NORMAL */}
+          <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+            <GalleryModalComponent
+              title="ROSELAB"
+              subtitle="Identity Design"
+              description="Creación de identidad visual y campaña 360 para RoseLab Cosmetics. Enfoque en colores atrevidos y texturas de alta fidelidad. Los materiales promueven una estética elegante."
+              reverseLayout={false}
+            />
+          </motion.div>
+
+          {/* 4.2 NUEVO CUADRO (BANNER) - MODO INVERTIDO */}
+          <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+            <GalleryModalComponent
+              title="BANNER"
+              subtitle="Design Variations"
+              description="Variaciones de banners digitales optimizados para campañas publicitarias web. Pruebas de contraste tipográfico y posicionamiento para asegurar una alta tasa de conversión."
+              reverseLayout={true}
+              images={["/images/banner/1.png", "/images/banner/2.png", "/images/banner/3.png", "/images/banner/4.png", "/images/banner/5.jpeg"]}
+              documents={["/images/banner/1.png", "/images/banner/2.png", "/images/banner/3.png", "/images/banner/4.png", "/images/banner/5.jpeg"]}
+            />
+          </motion.div>
+
+          {/* 4.3 NUEVO CUADRO (NAVIDAD) - MODO NORMAL */}
+          <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+            <GalleryModalComponent
+              title="NAVIDAD"
+              subtitle="Visual Identity"
+              description="Campaña gráfica de fin de año. Integración de elementos tradicionales con una línea editorial moderna y minimalista. Uso intensivo de paletas doradas y fondos oscuros."
+              reverseLayout={false}
+              images={["/images/navidad/5.png", "/images/navidad/1.png", "/images/navidad/3.png", "/images/navidad/4.png", "/images/navidad/2.png", "/images/navidad/6.png", "/images/navidad/7.png", "/images/navidad/8.png", "/images/navidad/9.png"]}
+              documents={["/images/navidad/5.png", "/images/navidad/1.png", "/images/navidad/3.png", "/images/navidad/4.png", "/images/navidad/2.png", "/images/navidad/6.png", "/images/navidad/7.png", "/images/navidad/8.png", "/images/navidad/9.png"]}
+            />
+          </motion.div>
+
+          {/* 5. REVISTA CON REACT-PAGEFLIP */}
+          <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+            <MagazineFlipBookComponent />
+          </motion.div>
+
+          {/* 6. GALERÍA CON SLIDER NORMAL */}
+          <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+            <ImageSlider />
+          </motion.div>
+
+        </motion.div>
+
+        {/* --- FOOTER --- */}
+        <footer className="max-w-[1800px] w-[98%] mx-auto mt-4 flex justify-between items-center text-[10px] text-gray-500 uppercase tracking-widest px-4">
+          <p>© 2026 VISUAL ARCHIVE</p>
+          <div className="flex gap-6">
+            <p>hello@tuweb.com</p>
+            <p>Location: Cairo / Remote</p>
           </div>
-          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 blur-[50px] rounded-full pointer-events-none" />
-        </div>
-
-      </div>
-
-      {/* SECCIÓN INFERIOR: 5 CUADROS PEQUEÑOS ALINEADOS */}
-      <div className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 h-auto lg:h-[280px] xl:h-[300px]">
-
-        {/* 4.1 CUADRO ORIGINAL (RoseLab) - MODO NORMAL */}
-        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
-          <GalleryModalComponent
-            title="ROSELAB"
-            subtitle="Identity Design"
-            description="Creación de identidad visual y campaña 360 para RoseLab Cosmetics. Enfoque en colores atrevidos y texturas de alta fidelidad. Los materiales promueven una estética elegante."
-            reverseLayout={false}
-          />
-        </motion.div>
-
-        {/* 4.2 NUEVO CUADRO (BANNER) - MODO INVERTIDO */}
-        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
-          <GalleryModalComponent
-            title="BANNER"
-            subtitle="Design Variations"
-            description="Variaciones de banners digitales optimizados para campañas publicitarias web. Pruebas de contraste tipográfico y posicionamiento para asegurar una alta tasa de conversión."
-            reverseLayout={true}
-            images={["/images/banner/1.png", "/images/banner/2.png", "/images/banner/3.png", "/images/banner/4.png", "/images/banner/5.jpeg"]}
-            documents={["/images/banner/1.png", "/images/banner/2.png", "/images/banner/3.png", "/images/banner/4.png", "/images/banner/5.jpeg"]}
-          />
-        </motion.div>
-
-        {/* 4.3 NUEVO CUADRO (NAVIDAD) - MODO NORMAL */}
-        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
-          <GalleryModalComponent
-            title="NAVIDAD"
-            subtitle="Visual Identity"
-            description="Campaña gráfica de fin de año. Integración de elementos tradicionales con una línea editorial moderna y minimalista. Uso intensivo de paletas doradas y fondos oscuros."
-            reverseLayout={false}
-            images={["/images/navidad/5.png", "/images/navidad/1.png", "/images/navidad/3.png", "/images/navidad/4.png", "/images/navidad/2.png", "/images/navidad/6.png", "/images/navidad/7.png", "/images/navidad/8.png", "/images/navidad/9.png"]}
-            documents={["/images/navidad/5.png", "/images/navidad/1.png", "/images/navidad/3.png", "/images/navidad/4.png", "/images/navidad/2.png", "/images/navidad/6.png", "/images/navidad/7.png", "/images/navidad/8.png", "/images/navidad/9.png"]}
-          />
-        </motion.div>
-
-        {/* 5. REVISTA CON REACT-PAGEFLIP */}
-        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
-          <MagazineFlipBookComponent />
-        </motion.div>
-
-        {/* 6. GALERÍA CON SLIDER NORMAL */}
-        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
-          <ImageSlider />
-        </motion.div>
-
-      </div>
-
-      {/* --- FOOTER --- */}
-      <footer className="max-w-[1800px] w-[98%] mx-auto mt-4 flex justify-between items-center text-[10px] text-gray-500 uppercase tracking-widest px-4">
-        <p>© 2026 VISUAL ARCHIVE</p>
-        <div className="flex gap-6">
-          <p>hello@tuweb.com</p>
-          <p>Location: Cairo / Remote</p>
-        </div>
-      </footer>
-
-    </main>
+        </footer>
+      </motion.main>
+    </>
   );
 }
