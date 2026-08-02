@@ -57,7 +57,7 @@ function ImageSlider() {
 
       <div className="absolute top-4 left-4 z-20">
         <h3 className="text-xl xl:text-2xl font-black text-white italic bg-transparent ">
-          MODA
+          PERSONAJES
         </h3>
       </div>
     </div>
@@ -445,7 +445,7 @@ export default function NuevoPortafolio() {
         >
           <div className="relative z-10">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none">
-              JORMALI<br />C.
+              JORMALI<br />CEVALLOS.
             </h1>
             <p className="mt-4 text-gray-400 max-w-md uppercase tracking-widest text-[10px] sm:text-xs">
               Diseñadora grafica y Diseñadora de Interiores.
