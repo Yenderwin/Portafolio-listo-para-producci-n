@@ -432,52 +432,29 @@ function MagazineFlipBookComponent() {
 
 // --- TU CÓDIGO PRINCIPAL ---
 export default function NuevoPortafolio() {
-  // Hooks para el efecto de luz que sigue al mouse
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      mouseX.set(e.clientX, false);
+      mouseY.set(e.clientY, false);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
-
-  // Variantes para la animación escalonada del grid
-  const gridContainerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const gridItemVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.98 },
-    show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
-  };
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white font-sans p-4 md:p-8 flex flex-col gap-6">
-      <motion.div
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{ background: useTransform(mouseX, (x) => `radial-gradient(600px at ${x}px ${mouseY.get()}px, rgba(220, 38, 38, 0.1), transparent 80%)`) }}
-      />
+      <motion.div className="fixed inset-0 pointer-events-none z-0" style={{ background: useTransform(mouseX, (x) => `radial-gradient(600px at ${x}px ${mouseY.get()}px, rgba(220, 38, 38, 0.1), transparent 80%)`) }} />
 
       {/* SECCIÓN SUPERIOR: 3 CUADROS GRANDES */}
-      <motion.div variants={gridContainerVariants} initial="hidden" animate="show" className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[250px] md:auto-rows-[150px]">
+      <div className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[250px] md:auto-rows-[150px]">
 
         {/* 1. Header & Intro */}
         <motion.div
-          variants={gridItemVariants}
           whileHover={{ scale: 0.99 }}
           className="md:col-span-7 md:row-span-2 bg-[#1a1a1a] rounded-3xl p-8 flex flex-col justify-end relative overflow-hidden border border-white/5"
         >
@@ -494,7 +471,6 @@ export default function NuevoPortafolio() {
 
         {/* 2. Foto Principal */}
         <motion.div
-          variants={gridItemVariants}
           whileHover={{ scale: 1.02 }}
           className="md:col-span-5 md:row-span-4 relative rounded-3xl overflow-hidden group shadow-2xl"
         >
@@ -513,7 +489,7 @@ export default function NuevoPortafolio() {
         </motion.div>
 
         {/* 3. Creative Journey */}
-        <motion.div variants={gridItemVariants} className="md:col-span-7 md:row-span-2 bg-[#1a1a1a] rounded-3xl border border-white/5 relative overflow-hidden flex flex-col p-6 md:p-8">
+        <div className="md:col-span-7 md:row-span-2 bg-[#1a1a1a] rounded-3xl border border-white/5 relative overflow-hidden flex flex-col p-6 md:p-8">
           <h3 className="text-gray-500 font-bold text-[8px] uppercase tracking-[0.3em] mb-2 md:mb-2 border-b border-red-600/30 pb-2 w-fit z-10">
             Experiencia
           </h3>
@@ -554,15 +530,15 @@ export default function NuevoPortafolio() {
             </div>
           </div>
           <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-white/5 blur-[50px] rounded-full pointer-events-none" />
-        </motion.div>
+        </div>
 
-      </motion.div>
+      </div>
 
       {/* SECCIÓN INFERIOR: 5 CUADROS PEQUEÑOS ALINEADOS */}
-      <motion.div variants={gridContainerVariants} initial="hidden" animate="show" className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 h-auto lg:h-[280px] xl:h-[300px]">
+      <div className="max-w-[1800px] w-[98%] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 h-auto lg:h-[280px] xl:h-[300px]">
 
         {/* 4.1 CUADRO ORIGINAL (RoseLab) - MODO NORMAL */}
-        <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
           <GalleryModalComponent
             title="ROSELAB"
             subtitle="Identity Design"
@@ -572,7 +548,7 @@ export default function NuevoPortafolio() {
         </motion.div>
 
         {/* 4.2 NUEVO CUADRO (BANNER) - MODO INVERTIDO */}
-        <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
           <GalleryModalComponent
             title="BANNER"
             subtitle="Design Variations"
@@ -584,7 +560,7 @@ export default function NuevoPortafolio() {
         </motion.div>
 
         {/* 4.3 NUEVO CUADRO (NAVIDAD) - MODO NORMAL */}
-        <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
           <GalleryModalComponent
             title="NAVIDAD"
             subtitle="Visual Identity"
@@ -596,16 +572,16 @@ export default function NuevoPortafolio() {
         </motion.div>
 
         {/* 5. REVISTA CON REACT-PAGEFLIP */}
-        <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
           <MagazineFlipBookComponent />
         </motion.div>
 
         {/* 6. GALERÍA CON SLIDER NORMAL */}
-        <motion.div variants={gridItemVariants} className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
+        <motion.div className="bg-[#1a1a1a] relative rounded-3xl overflow-hidden border border-white/5 h-[300px] lg:h-full">
           <ImageSlider />
         </motion.div>
 
-      </motion.div>
+      </div>
 
       {/* --- FOOTER --- */}
       <footer className="max-w-[1800px] w-[98%] mx-auto mt-4 flex justify-between items-center text-[10px] text-gray-500 uppercase tracking-widest px-4">
